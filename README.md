@@ -68,3 +68,27 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## Deploy to S3
+- Create bucket `your-site-name`
+- Deselect Block all public access and acknowledge
+- Go to permissions -> Bucket policy -> Edit
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AddPerm",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::your-site-name/*"
+        }
+    ]
+}
+```
+- Build your site with `npm run build` and upload `build` folder content to bucket
+- Go to properties and enable static site hosting
+    - Set index.html as root and error pages
+    - Check your site on `Endpoint` displayed in this section
