@@ -92,3 +92,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - Go to properties and enable static site hosting
     - Set index.html as root and error pages
     - Check your site on `Endpoint` displayed in this section
+
+## Expose via CloudFront
+- Create distribution using website bucket. Select website endpoint when suggested to do so.
+- Add your alternative domain names selecting a previously created ACM SSL certificate (just create it in the ACM console)
+- Point your alternative domain names as CNAME to the distribution endpoint
+- Add cache invalidation to your Github Action
+```
+      - name: Clear CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} --paths /
+```
